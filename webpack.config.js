@@ -84,7 +84,7 @@ module.exports = {
   //По умолчанию, весь результирующий код собирается в папку dist.
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "[name].[hash].js",
+    filename: "[name].js",
   },
   mode: "development",
 };
