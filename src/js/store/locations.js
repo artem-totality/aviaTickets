@@ -6,19 +6,24 @@ class Locations {
     this.countries = null;
     this.cities = null;
     this.shortCitiesList = null;
+    this.lastSearch = {};
+    this.airlines = {};
   }
 
   async init() {
     const response = await Promise.all([
       this.api.countries(),
       this.api.cities(),
+      this.api.airlines(),
     ]);
 
-    const [countries, cities] = response;
+    const [countries, cities, airlines] = response;
     this.countries = this.serializeCountries(countries);
     this.cities = this.serializeCities(cities);
     this.shortCitiesList = this.createShortCitiesList(this.cities);
+    this.airlines = this.serializeAirlines(airlines);
 
+    console.log(this.airlines);
     return response;
   }
 
@@ -26,9 +31,22 @@ class Locations {
     return this.cities[key].code;
   }
 
+  getAirlineNameByCode(code) {
+    return this.airlines[code] ? this.airlines[code].name : "";
+  }
+
   createShortCitiesList(cities) {
     return Object.keys(cities).reduce((acc, cityName) => {
       acc[cityName] = null;
+      return acc;
+    }, {});
+  }
+
+  serializeAirlines(airlines) {
+    return airlines.reduce((acc, airline) => {
+      airline.logo = `http://pics.avs.io/200/200/${airline.code}.png`;
+      airline.name = airline.name || airline.name_translations.en;
+      acc[airline.code] = airline;
       return acc;
     }, {});
   }
