@@ -1,7 +1,7 @@
 import {
   getAutocompleteInstance,
   getDatePickerInstance,
-} from "../plugins/materialize"; //?
+} from "../plugins/materialize";
 
 class FormUI {
   constructor(autocompleteInstance, datePickerInstance) {

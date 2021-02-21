@@ -4,6 +4,7 @@ import locations from "./store/locations";
 import formUI from "./views/form";
 import currencyUI from "./views/currency";
 import ticketsUI from "./views/tickets";
+import dropdownUI from "./views/dropdown";
 
 // locations.init().then((res) => {
 //   console.log(res);
@@ -13,11 +14,23 @@ import ticketsUI from "./views/tickets";
 document.addEventListener("DOMContentLoaded", () => {
   initApp();
   const form = formUI.form;
+  const ticketsContainer = ticketsUI.container;
+  const dropdownContainer = dropdownUI.container;
 
   // Events
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     onFormSubmit();
+  });
+
+  ticketsContainer.addEventListener("click", (e) => {
+    e.preventDefault();
+    onAddTicketToFavorite(e);
+  });
+
+  dropdownContainer.addEventListener("click", (e) => {
+    e.preventDefault();
+    onRemoveTicketFromFavorite(e);
   });
 
   // Handlers
@@ -43,5 +56,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     ticketsUI.renderTickets(locations.lastSearch);
+  }
+
+  function onAddTicketToFavorite(e) {
+    const target = e.target;
+
+    if (target.classList.contains("add-favorite")) {
+      const ticketIndex = Number.parseInt(target.dataset.index);
+
+      dropdownUI.addFavoriteTicket(locations.lastSearch[ticketIndex]);
+    }
+  }
+
+  function onRemoveTicketFromFavorite(e) {
+    const target = e.target;
+    if (target.classList.contains("delete-favorite")) {
+      target.closest(".favorite-item").remove();
+      dropdownUI.resizeDropdown();
+    }
   }
 });
