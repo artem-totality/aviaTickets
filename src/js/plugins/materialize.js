@@ -1,6 +1,11 @@
 import "materialize-css/dist/css/materialize.min.css";
 import "materialize-css/dist/js/materialize.min.js";
 
+// Init dropdown
+
+const dropdown = document.querySelectorAll(".dropdown-trigger");
+M.Dropdown.init(dropdown);
+
 // Init select
 
 const select = document.querySelectorAll("select");
